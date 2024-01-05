@@ -66,32 +66,27 @@
                     <form action="" method="post">
                         @csrf
                         <div class="mb-3">
-                            <input type="text" class="form-control" id="" name=""
+                            <input type="text" class="form-control" id="" name="name"
                                 placeholder="Employee Name">
                         </div>
 
                         <div class="mb-3">
-                            <input type="text" class="form-control" id="" name=""
+                            <input type="text" class="form-control" id="" name="number"
                                 placeholder="Mobile Number">
                         </div>
 
                         <div class="mb-3">
-                            <input type="email" class="form-control" id="" name=""
+                            <input type="email" class="form-control" id="" name="email"
                                 placeholder="Email Address">
                         </div>
 
                         <div class="mb-3">
-                            <input type="text" class="form-control" id="" name=""
-                                placeholder="Joining Date">
-                        </div>
-
-                        <div class="mb-3">
-                            <input type="password" class="form-control" id="" name=""
+                            <input type="password" class="form-control" id="" name="password"
                                 placeholder="Set Password ">
                         </div>
 
                         <div class="mb-3">
-                            <input class="form-control bg-light" list="datalistOptions" id="exampleDataList"
+                            <input class="form-control bg-light" list="datalistOptions" id="exampleDataList" name="district"
                                 placeholder="Select District">
                             <datalist id="datalistOptions">
                                 <option value="Jan">
@@ -103,7 +98,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <input type="file" class="form-control" id="" name=""
+                            <input type="file" class="form-control" id="" name="image"
                                 placeholder="Upload Photo">
                         </div>
 
@@ -113,9 +108,6 @@
                     </form>
 
                 </div>
-                {{-- <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div> --}}
             </div>
         </div>
     </div>
