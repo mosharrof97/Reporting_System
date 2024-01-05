@@ -1,7 +1,7 @@
 @extends('adminDashboard.layout.layout')
 
 @section('content')
-    <div class="row"> 
+    <div class="row">
         <div class="col-lg-12">
             <div class="card">
 
@@ -40,20 +40,22 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1001</td>
-                                    <td></td>
-                                    <td>13 Jan 2024</td>
-                                    <td>Md Shozib Hossen</td>
-                                    <td>0130139373</td>
-                                    <td>in@gmailcom</td>
-                                    <td>Kustia</td>
-                                    <td>100</td>
-                                    <td>1600.00</td>
-                                    <td>100.00</td>
-                                    <td>600.00</td>
-                                    <td>10</td>
-                                </tr>
+                                @foreach ($emplo as $data)
+                                    <tr>
+                                        <td>{{ $data->id + 1000 }}</td>
+                                        <td></td>
+                                        <td>{{ $data->created_at->format('Y-m-d') }}</td>
+                                        <td>{{ $data->name }}</td>
+                                        <td>{{ $data->number }}</td>
+                                        <td>{{ $data->email }}</td>
+                                        <td>{{ $data->district }}</td>
+                                        <td>100</td>
+                                        <td>1600.00</td>
+                                        <td>100.00</td>
+                                        <td>600.00</td>
+                                        <td>10</td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

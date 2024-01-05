@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\RegisteredUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,9 +19,8 @@ Route::get('/', function () {
     return view('adminDashboard.page.dashboard');
 })->name('adminDashboard');
 
-Route::get('/employee_List', function () {
-return view('adminDashboard.page.employee_List');
-})->name('employee_List');
+Route::get('/employee_List', [RegisteredUserController::class, 'index'])->name('employee_List');
+
 
 Route::get('/marketing_Report', function () {
 return view('adminDashboard.page.marketingReport');

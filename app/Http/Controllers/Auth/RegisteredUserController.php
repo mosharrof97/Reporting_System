@@ -20,10 +20,13 @@ class RegisteredUserController extends Controller
     /**
      * Display the registration view.
      */
-    public function create(): View
+    public function index()
     {
-        return view('adminDashboard.page.employee_List');
+         $emplo = User::where('role', 'user')->orderBy('id', 'ASC')->paginate(15);
+        
+        return view('adminDashboard.page.employee_List', compact('emplo'));
     }
+
 
     /**
      * Handle an incoming registration request.
@@ -75,15 +78,13 @@ class RegisteredUserController extends Controller
             'image.required' => 'Please upload an image.',
         ]);
        
-        // if ($request->hasFile('image')) {
-        $imageName = 'User_' . time() . '_' . mt_rand(100000, 20000000) . '.' . $request->file('image')->extension();
+        if ($request->hasFile('image')) {
+            $imageName = 'User_' . time() . '_' . mt_rand(100000, 20000000) . '.' . $request->file('image')->extension();
+            //  $imageName = time().'.'.$request->image->extension();
+            
+            $request->file('image')->move(storage_path('app/public/UserImage'), $imageName);
+        }
 
-         dd($imageName);
-        $request->file('image')->move(storage_path('app/public/UserImage'), $imageName);
-        // }
-
-        dd($request);
-        
         $user = User::create([
             'name' => $request->name,
             'number' => $request->number,
