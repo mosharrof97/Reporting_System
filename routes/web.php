@@ -15,8 +15,30 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('adminDashboard.page.dashboard');
+})->name('adminDashboard');
+
+Route::get('/employee_List', function () {
+return view('adminDashboard.page.employee_List');
+})->name('employee_List');
+
+Route::get('/marketing_Report', function () {
+return view('adminDashboard.page.marketingReport');
+})->name('marketing_Report');
+
+
+Route::get('/user', function () {
+return view('userDashboard.page.dashboard');
+})->name('userDashboard');
+
+Route::get('/report_List', function () {
+return view('userDashboard\page\report_List');
+})->name('report_List');
+
+Route::get('/submit_Report', function () {
+return view('userDashboard\page\submit_Report');
+})->name('submit_Report');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
