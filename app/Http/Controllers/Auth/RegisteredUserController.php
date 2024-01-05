@@ -75,14 +75,14 @@ class RegisteredUserController extends Controller
             'image.required' => 'Please upload an image.',
         ]);
        
-        // if ($request->hasFile('image')) {
+        if ($request->hasFile('image')) {
         $imageName = 'User_' . time() . '_' . mt_rand(100000, 20000000) . '.' . $request->file('image')->extension();
 
-         dd($imageName);
+        //  dd($imageName);
         $request->file('image')->move(storage_path('app/public/UserImage'), $imageName);
-        // }
+         }
 
-        dd($request);
+        // dd($request);
         
         $user = User::create([
             'name' => $request->name,

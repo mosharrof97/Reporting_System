@@ -165,7 +165,7 @@
                     </li>
 
                     <li>
-                        <a class="has-arrow" href="{{ route('marketing_Report') }}" aria-expanded="false">
+                        <a class="has-arrow" href="{{ route('submit_Report') }}" aria-expanded="false">
                             <i class="fa-solid fa-store"></i>
                             <span class="nav-text">Submit Report</span>
                         </a>

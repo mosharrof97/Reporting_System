@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SubmitController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,9 +36,12 @@ Route::get('/report_List', function () {
 return view('userDashboard\page\report_List');
 })->name('report_List');
 
-Route::get('/submit_Report', function () {
-return view('userDashboard\page\submit_Report');
-})->name('submit_Report');
+// Route::get('/submit_Report', function () {
+// return view('userDashboard\page\submit_Report');
+// })->name('submit_Report');
+
+Route::get('submit-report', [SubmitController::class,'create'])->name('submit_Report');
+Route::post('submit-report', [SubmitController::class,'store'])->name('Report_submited');
 
 
 Route::get('/dashboard', function () {
@@ -48,6 +52,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
 });
 
 require __DIR__.'/auth.php';
