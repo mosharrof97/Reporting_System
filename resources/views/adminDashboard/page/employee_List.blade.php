@@ -4,6 +4,17 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
+
+                <div>
+                    @if (Session::has('success'))
+                        <p class="text-success">{{ Session::get('success') }}</p>
+                    @endif
+
+                    @if (Session::has('error'))
+                        <p class="text-danger">{{ Session::get('error') }}</p>
+                    @endif
+                </div>
+
                 <div class="card-header">
                     <h4 class="card-title">Employee List</h4>
                     <button type="button" class="btn btn-primary" href="" data-bs-toggle="modal"
@@ -63,26 +74,50 @@
                 </div>
                 <div class="modal-body px-5 pb-3">
 
-                    <form action="" method="post">
+                    <form action="{{ route('registered') }}" method="post">
                         @csrf
                         <div class="mb-3">
                             <input type="text" class="form-control" id="" name="name"
                                 placeholder="Employee Name">
+                            @error('name')
+                                <span id="" class="form-text text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         <div class="mb-3">
                             <input type="text" class="form-control" id="" name="number"
                                 placeholder="Mobile Number">
+
+                            @error('number')
+                                <span id="" class="form-text text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         <div class="mb-3">
                             <input type="email" class="form-control" id="" name="email"
                                 placeholder="Email Address">
+
+                            @error('email')
+                                <span id="" class="form-text text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         <div class="mb-3">
                             <input type="password" class="form-control" id="" name="password"
                                 placeholder="Set Password ">
+
+                            @error('password')
+                                <span id="" class="form-text text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <input type="password" class="form-control" id="" name="password_confirmation"
+                                placeholder="Set Confirmation Password  ">
+
+                            @error('password_confirmation')
+                                <span id="" class="form-text text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         <div class="mb-3">
@@ -95,11 +130,19 @@
                                 <option value="April">
                                 <option value="May">
                             </datalist>
+
+                            @error('district')
+                                <span id="" class="form-text text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         <div class="mb-3">
                             <input type="file" class="form-control" id="" name="image"
                                 placeholder="Upload Photo">
+
+                            @error('image')
+                                <span id="" class="form-text text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         <div class="mb-3 text-end">
