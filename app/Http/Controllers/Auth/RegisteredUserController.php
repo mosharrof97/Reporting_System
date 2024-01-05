@@ -79,12 +79,14 @@ class RegisteredUserController extends Controller
         ]);
        
         if ($request->hasFile('image')) {
-            $imageName = 'User_' . time() . '_' . mt_rand(100000, 20000000) . '.' . $request->file('image')->extension();
-            //  $imageName = time().'.'.$request->image->extension();
-            
-            $request->file('image')->move(storage_path('app/public/UserImage'), $imageName);
+        $imageName = 'User_' . time() . '_' . mt_rand(100000, 20000000) . '.' . $request->file('image')->extension();
+
+         dd($imageName);
+        $request->file('image')->move(storage_path('app/public/UserImage'), $imageName);
         }
 
+        dd($request);
+        
         $user = User::create([
             'name' => $request->name,
             'number' => $request->number,
