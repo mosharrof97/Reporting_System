@@ -3,11 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\SubmitReport;
 use Illuminate\Http\RedirectResponse;
+use App\Models\SubmitReport;
 
 class SubmitController extends Controller
 {
+     public function index()
+     {
+        $submitReport = SubmitReport::orderBy('id', 'ASC')->paginate(15);
+     return view('userDashboard.page.report_List',
+     compact('submitReport'));
+     }
+
     public function create()
     {
         return view('userDashboard.page.submit_Report');
@@ -56,4 +63,3 @@ class SubmitController extends Controller
         return back()->with('success','Data Input Successfully');
     }
 }
-

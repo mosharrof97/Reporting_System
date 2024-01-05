@@ -28,22 +28,24 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($submitReport as $data)
+                                    <tr>
+                                        <td>1</td>
+                                        <td>13 Jan 23</td>
+                                        <td>Abdul Galif High School</td>
+                                        <td>979799</td>
+                                        <td>Abdul Khalil</td>
+                                        <td>01301393735</td>
+                                        <td>Jhenaid ah</td>
+                                        <td>Shailku pa</td>
+                                        <td>3</td>
+                                        <td>Negative</td>
+                                        <td>60.00</td>
+                                        <td></td>
+                                        <td>Md Shahidul</td>
+                                    </tr>
+                                @endforeach
 
-                                <tr>
-                                    <td>1</td>
-                                    <td>13 Jan 23</td>
-                                    <td>Abdul Galif High School</td>
-                                    <td>979799</td>
-                                    <td>Abdul Khalil</td>
-                                    <td>01301393735</td>
-                                    <td>Jhenaid ah</td>
-                                    <td>Shailku pa</td>
-                                    <td>3</td>
-                                    <td>Negative</td>
-                                    <td>60.00</td>
-                                    <td></td>
-                                    <td>Md Shahidul</td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>

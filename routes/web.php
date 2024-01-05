@@ -32,14 +32,15 @@ Route::get('/user', function () {
 return view('userDashboard.page.dashboard');
 })->name('userDashboard');
 
-Route::get('/report_List', function () {
-return view('userDashboard\page\report_List');
-})->name('report_List');
+// Route::get('/report_List', function () {
+// return view('userDashboard\page\report_List');
+// })->name('report_List');
 
 // Route::get('/submit_Report', function () {
 // return view('userDashboard\page\submit_Report');
 // })->name('submit_Report');
 
+Route::get('report_list', [SubmitController::class,'index'])->name('report_List');
 Route::get('submit-report', [SubmitController::class,'create'])->name('submit_Report');
 Route::post('submit-report', [SubmitController::class,'store'])->name('Report_submited');
 
@@ -52,7 +53,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
 });
 
 require __DIR__.'/auth.php';
