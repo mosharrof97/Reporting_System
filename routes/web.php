@@ -20,6 +20,10 @@ Route::get('/', function () {
     return view('adminDashboard.page.dashboard');
 })->name('adminDashboard');
 
+Route::get('/login', function () {
+    return view('adminDashboard.page.login');
+});
+
 Route::get('/employee_List', [RegisteredUserController::class, 'index'])->name('employee_List');
 
 
@@ -31,6 +35,8 @@ return view('adminDashboard.page.marketingReport');
 Route::get('/user', function () {
 return view('userDashboard.page.dashboard');
 })->name('userDashboard');
+
+
 
 // Route::get('/report_List', function () {
 // return view('userDashboard\page\report_List');

@@ -28,21 +28,22 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($submitReport as $data)
+                                @foreach ($submitReport as $datas)
                                     <tr>
-                                        <td>1</td>
-                                        <td>13 Jan 23</td>
-                                        <td>Abdul Galif High School</td>
-                                        <td>979799</td>
-                                        <td>Abdul Khalil</td>
-                                        <td>01301393735</td>
-                                        <td>Jhenaid ah</td>
-                                        <td>Shailku pa</td>
-                                        <td>3</td>
-                                        <td>Negative</td>
-                                        <td>60.00</td>
-                                        <td></td>
-                                        <td>Md Shahidul</td>
+                                        <td>{{ $datas->id}}</td>
+                                        <td>{{ $datas->created_at}}</td>
+                                        <td>{{ $datas->school_name}}</td>
+                                        <td>{{ $datas->eiin_number}}</td>
+                                        <td>{{ $datas->h_teacher_name}}</td>
+                                        <td>{{ $datas->number}}</td>
+                                        <td>{{ $datas->district}}</td>
+                                        <td>{{ $datas->upazila}}</td>
+                                        <td>{{ $datas->upazila}}</td>
+                                        <td>{{ $datas->school_comment}}</td>
+                                        <td>{{ $datas->t_a_bill}}</td>
+                                        <td>{{ $datas->visit_status}}</td>
+                                        <td>{{ $datas->visit_status}}</td>
+                                        
                                     </tr>
                                 @endforeach
 
@@ -53,4 +54,5 @@
             </div>
         </div>
     </div>
+    
 @endsection
