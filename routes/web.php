@@ -16,44 +16,34 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 |
 */
 
-Route::get('/', function () {
-    return view('adminDashboard.page.dashboard');
-})->name('adminDashboard');
 
-Route::get('/login', function () {
-    return view('adminDashboard.page.login');
+Route::middleware(['auth', 'checkRole: 1'])->group(function () {
+
+    Route::get('/admin', [RegisteredUserController::class, 'index'])->name('adminDashboard');
+     Route::post('register', [RegisteredUserController::class, 'store']) -> name('registered');
+     Route::get('/employee_List', [RegisteredUserController::class, 'employeeList'])->name('employee_List');
+     Route::get('/marketing_Report', function () {
+     return view('adminDashboard.page.marketingReport');
+     })->name('marketing_Report');
+
 });
 
-Route::get('/employee_List', [RegisteredUserController::class, 'index'])->name('employee_List');
 
 
-Route::get('/marketing_Report', function () {
-return view('adminDashboard.page.marketingReport');
-})->name('marketing_Report');
+Route::prefix('employee')->middleware(['auth', 'checkRole: 2'])->group(function () {
 
+    Route::get('/', function () {
+    return view('userDashboard.page.dashboard');
+    })->name('userDashboard');
+    Route::get('report_list', [SubmitController::class,'index'])->name('report_List');
+    Route::get('submit-report', [SubmitController::class,'create'])->name('submit_Report');
+    Route::post('submit-report', [SubmitController::class,'store'])->name('Report_submited');
 
-Route::get('/user', function () {
-return view('userDashboard.page.dashboard');
-})->name('userDashboard');
+});
 
-
-
-// Route::get('/report_List', function () {
-// return view('userDashboard\page\report_List');
-// })->name('report_List');
-
-// Route::get('/submit_Report', function () {
-// return view('userDashboard\page\submit_Report');
-// })->name('submit_Report');
-
-Route::get('report_list', [SubmitController::class,'index'])->name('report_List');
-Route::get('submit-report', [SubmitController::class,'create'])->name('submit_Report');
-Route::post('submit-report', [SubmitController::class,'store'])->name('Report_submited');
-
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

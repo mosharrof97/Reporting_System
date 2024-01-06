@@ -12,6 +12,11 @@ use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
 {
+     public function home(): View
+     {
+        return view('home');
+     }
+
     /**
      * Display the login view.
      */
@@ -29,8 +34,34 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        $url = '';
+        if ($request->user()->role == 'admin') {
+            $url=route('adminDashboard');
+        }
+        elseif($request->user()->role == 'user' ){
+            $url = route('userDashboard');
+        }
+        else{
+            $url = '/login';
+        }
+        return redirect()->intended($url );
     }
+
+    // public function employee_store(LoginRequest $request): RedirectResponse
+    // {
+    // $request->authenticate();
+
+    // $request->session()->regenerate();
+
+    // $url = '';
+    // if($request->user()->role == 'user' ){
+    // $url = route('userDashboard');
+    // }
+    // else{
+    // $url = '/login';
+    // }
+    // return redirect()->intended($url );
+    // }
 
     /**
      * Destroy an authenticated session.

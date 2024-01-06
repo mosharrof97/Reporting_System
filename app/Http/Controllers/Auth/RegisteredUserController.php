@@ -20,7 +20,16 @@ class RegisteredUserController extends Controller
     /**
      * Display the registration view.
      */
-    public function index()
+
+     public function index()
+     {
+        // $emplo = User::where('role', 'user')->orderBy('id', 'ASC')->paginate(15);
+
+        return view('adminDashboard.page.dashboard');
+     }
+
+
+    public function employeeList()
     {
          $emplo = User::where('role', 'user')->orderBy('id', 'ASC')->paginate(15);
         
