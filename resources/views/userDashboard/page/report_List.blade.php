@@ -30,20 +30,20 @@
                             <tbody>
                                 @foreach ($submitReport as $datas)
                                     <tr>
-                                        <td>{{ $datas->id}}</td>
-                                        <td>{{ $datas->created_at}}</td>
-                                        <td>{{ $datas->school_name}}</td>
-                                        <td>{{ $datas->eiin_number}}</td>
-                                        <td>{{ $datas->h_teacher_name}}</td>
-                                        <td>{{ $datas->number}}</td>
-                                        <td>{{ $datas->district}}</td>
-                                        <td>{{ $datas->upazila}}</td>
-                                        <td>{{ $datas->upazila}}</td>
-                                        <td>{{ $datas->school_comment}}</td>
-                                        <td>{{ $datas->t_a_bill}}</td>
-                                        <td>{{ $datas->visit_status}}</td>
-                                        <td>{{ $datas->visit_status}}</td>
-                                        
+                                        <td>{{ $datas->id }}</td>
+                                        <td>{{ $datas->created_at }}</td>
+                                        <td>{{ $datas->school_name }}</td>
+                                        <td>{{ $datas->eiin_number }}</td>
+                                        <td>{{ $datas->h_teacher_name }}</td>
+                                        <td>{{ $datas->number }}</td>
+                                        <td>{{ $datas->district }}</td>
+                                        <td>{{ $datas->upazila }}</td>
+                                        <td>{{ $datas->count() }}</td>
+                                        <td>{{ $datas->school_comment }}</td>
+                                        <td>{{ $datas->t_a_bill }}</td>
+                                        <td>{{ $datas->visit_status }}</td>
+                                        <td>{{ $datas->visit_status }}</td>
+
                                     </tr>
                                 @endforeach
 
@@ -54,5 +54,4 @@
             </div>
         </div>
     </div>
-    
 @endsection

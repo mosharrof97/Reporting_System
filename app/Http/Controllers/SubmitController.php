@@ -5,14 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use App\Models\SubmitReport;
+use Illuminate\Support\Facades\Auth;
 
 class SubmitController extends Controller
 {
      public function index()
      {
-        $submitReport = SubmitReport::orderBy('id', 'ASC')->paginate(15);
-     return view('userDashboard.page.report_List',
-     compact('submitReport'));
+        $user_id=Auth::user()->id;
+        $submitReport = SubmitReport::where('user_id', $user_id)->orderBy('id', 'ASC')->paginate(15);
+        return view('userDashboard.page.report_List', compact('submitReport'));
      }
 
     public function create()
@@ -23,7 +24,7 @@ class SubmitController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            
+            // 'user_id'=>Auth::user()->id,
             'school_name' => ['required', 'string', 'max:255'],
             'h_teacher_name' => ['required', 'string', 'max:255'],
             'number' => ['required', 'max:15'],
@@ -48,6 +49,7 @@ class SubmitController extends Controller
         // dd($request);
         
         SubmitReport::create([
+            'user_id'=>Auth::user()->id,
             'school_name' => $request->school_name,
             'h_teacher_name' => $request->h_teacher_name,
             'number' => $request->number,

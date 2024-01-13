@@ -80,7 +80,7 @@
                             </thead>
                             <tbody>
 
-                                <tr>
+                                {{-- <tr>
                                     <td>1</td>
                                     <td>13 Jan 23</td>
                                     <td>Abdul Galif High School</td>
@@ -94,7 +94,25 @@
                                     <td>60.00</td>
                                     <td></td>
                                     <td>Md Shahidul</td>
-                                </tr>
+                                </tr> --}}
+                                @foreach ($marketingReport as $datas)
+                                    <tr>
+                                        <td>{{ $datas->id }}</td>
+                                        <td>{{ $datas->created_at }}</td>
+                                        <td>{{ $datas->school_name }}</td>
+                                        <td>{{ $datas->eiin_number }}</td>
+                                        <td>{{ $datas->h_teacher_name }}</td>
+                                        <td>{{ $datas->number }}</td>
+                                        <td>{{ $datas->district }}</td>
+                                        <td>{{ $datas->upazila }}</td>
+                                        <td>1 </td>
+                                        <td>{{ $datas->school_comment }}</td>
+                                        <td>{{ $datas->t_a_bill }}</td>
+                                        <td>{{ $datas->visit_status }}</td>
+                                        <td>{{ $datas->user->name }}</td>
+
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('submit_reports', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id');
             $table->string('school_name');
             $table->string('h_teacher_name');
             $table->string('number');
@@ -35,4 +36,6 @@ return new class extends Migration
     {
         Schema::dropIfExists('submit_reports');
     }
+
+    
 };

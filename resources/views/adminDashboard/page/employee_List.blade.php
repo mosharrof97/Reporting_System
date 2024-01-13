@@ -49,7 +49,7 @@
                                         <td>{{ $data->number }}</td>
                                         <td>{{ $data->email }}</td>
                                         <td>{{ $data->district }}</td>
-                                        <td>100</td>
+                                        <td>{{ $data->submit_reports_count }}</td>
                                         <td>1600.00</td>
                                         <td>100.00</td>
                                         <td>600.00</td>

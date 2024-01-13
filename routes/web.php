@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SubmitController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\admin\MarketingReportController;
+use App\Http\Controllers\EmployeeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,9 +24,7 @@ Route::middleware(['auth', 'checkRole: 1'])->group(function () {
     Route::get('/admin', [RegisteredUserController::class, 'index'])->name('adminDashboard');
      Route::post('register', [RegisteredUserController::class, 'store']) -> name('registered');
      Route::get('/employee_List', [RegisteredUserController::class, 'employeeList'])->name('employee_List');
-     Route::get('/marketing_Report', function () {
-     return view('adminDashboard.page.marketingReport');
-     })->name('marketing_Report');
+     Route::get('/marketing_Report', [MarketingReportController::class, 'index'])->name('marketing_Report');
 
 });
 
@@ -32,9 +32,7 @@ Route::middleware(['auth', 'checkRole: 1'])->group(function () {
 
 Route::prefix('employee')->middleware(['auth', 'checkRole: 2'])->group(function () {
 
-    Route::get('/', function () {
-    return view('userDashboard.page.dashboard');
-    })->name('userDashboard');
+    Route::get('/', [EmployeeController::class, 'index'])->name('userDashboard');
     Route::get('report_list', [SubmitController::class,'index'])->name('report_List');
     Route::get('submit-report', [SubmitController::class,'create'])->name('submit_Report');
     Route::post('submit-report', [SubmitController::class,'store'])->name('Report_submited');

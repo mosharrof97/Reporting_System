@@ -31,7 +31,8 @@ class RegisteredUserController extends Controller
 
     public function employeeList()
     {
-         $emplo = User::where('role', 'user')->orderBy('id', 'ASC')->paginate(15);
+         $emplo = User::where('role', '2')->withCount('submit_reports')->orderBy('id', 'ASC')->paginate(15);
+        // $users = User::withCount('products')->get();
         
         return view('adminDashboard.page.employee_List', compact('emplo'));
     }
@@ -100,7 +101,7 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'number' => $request->number,
             'email' => $request->email,
-            'role' => 'user',
+            'role' => '2',
             'district' => $request->district,
             'image' => $imageName ?? 'No Image',
             'password' => Hash::make($request->password),

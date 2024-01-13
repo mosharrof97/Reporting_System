@@ -24,7 +24,7 @@
             <div class="card border-1 border-primary">
                 <div class="stat-widget-one card-body p-3">
                     <div class=" text-center">
-                        <h5>0</h5>
+                        <h5>{{ $getTodayData }}</h5>
                         <h5>Today Visit</h5>
                     </div>
                 </div>
@@ -35,8 +35,19 @@
             <div class="card border-1 border-primary">
                 <div class="stat-widget-one card-body p-3">
                     <div class=" text-center">
-                        <h5>0</h5>
-                        <h5>Total Sold</h5>
+                        <h5>{{ $runningMonthlyData }}</h5>
+                        <h5>Running Monthly Visit</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-sm-6">
+            <div class="card border-1 border-primary">
+                <div class="stat-widget-one card-body p-3">
+                    <div class=" text-center">
+                        <h5>{{ $positiveVisit }}</h5>
+                        <h5>Total Positive Visit</h5>
                     </div>
                 </div>
             </div>
@@ -47,7 +58,7 @@
                 <div class="stat-widget-one card-body p-3">
                     <div class=" text-center">
                         <h5>0</h5>
-                        <h5>Total Sold</h5>
+                        <h5>Month Sell</h5>
                     </div>
                 </div>
             </div>
@@ -58,18 +69,7 @@
                 <div class="stat-widget-one card-body p-3">
                     <div class=" text-center">
                         <h5>0</h5>
-                        <h5>Total Sold</h5>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-3 col-sm-6">
-            <div class="card border-1 border-primary">
-                <div class="stat-widget-one card-body p-3">
-                    <div class=" text-center">
-                        <h5>0</h5>
-                        <h5>Total Visit</h5>
+                        <h5>Total T.A Bill Submit</h5>
                     </div>
                 </div>
             </div>
@@ -79,7 +79,7 @@
                 <div class="stat-widget-one card-body p-3">
                     <div class=" text-center">
                         <h5>0</h5>
-                        <h5>Total Positive</h5>
+                        <h5>Total T.A Payable</h5>
                     </div>
                 </div>
             </div>
@@ -89,7 +89,7 @@
                 <div class="stat-widget-one card-body p-3">
                     <div class=" text-center">
                         <h5>0</h5>
-                        <h5>Total Sold</h5>
+                        <h5>Total T.A Paid</h5>
                     </div>
                 </div>
             </div>
