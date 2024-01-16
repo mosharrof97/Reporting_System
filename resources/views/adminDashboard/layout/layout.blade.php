@@ -22,7 +22,7 @@
     <link href="{{ asset('vendor/datatables/css/jquery.dataTables.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 
-    <title>Focus - Bootstrap Admin Dashboard </title>
+    <title>Reporting System </title>
 </head>
 
 <body>
@@ -50,11 +50,12 @@
         {{-- --**********************************
             Nav header start
         ***********************************-- --}}
-        <div class="nav-header">
+        <div class="nav-header bg-white">
             <a href="{{ route('adminDashboard') }}" class="brand-logo">
-                <img class="logo-abbr" style="max-width: 52px;" src="{{ asset('images/logo.png') }}" alt="">
-                <img class="logo-compact" src="{{ asset('images/logo-text.png') }}" alt="">
-                <img class="brand-title" src="{{ asset('images/logo-text.png') }}" alt="">
+                {{-- <img class="logo-abbr" style="max-width: 52px;" src="{{ asset('images/logo.png') }}" alt="">
+                <img class="logo-compact" src="{{ asset('images/logo-text.png') }}" alt=""> --}}
+                <img class="brand-title  " style="max-width:100px" src="{{ asset('images/logo-text.png') }}"
+                    alt="">
             </a>
 
             <div class="nav-control">
@@ -126,10 +127,7 @@
                                         <i class="icon-envelope-open"></i>
                                         <span class="ml-2">Inbox </span>
                                     </a>
-                                    {{-- <a href="./page-login.html" class="dropdown-item">
-                                        <i class="icon-key"></i>
-                                        <span class="ml-2">Logout </span>
-                                    </a> --}}
+
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf
                                         <a class="dropdown-item" href="{{ route('logout') }}"
@@ -171,6 +169,13 @@
                     </li>
 
                     <li>
+                        <a class="has-arrow" href="{{ route('schedule_list') }}" aria-expanded="false">
+                            <i class="fa-solid fa-store"></i>
+                            <span class="nav-text">Appointmen List</span>
+                        </a>
+                    </li>
+
+                    <li>
                         <a class="has-arrow" href="{{ route('marketing_Report') }}" aria-expanded="false">
                             <i class="fa-solid fa-store"></i>
                             <span class="nav-text">Marketing Report</span>
@@ -189,6 +194,25 @@
                             <i class="fa-solid fa-store"></i>
                             <span class="nav-text">Manage Role </span>
                         </a>
+                    </li>
+
+                    <li class="">
+                        <a href="javascript:void(0);" class="has-arrow d-flex menu-toggle">
+                            <i class="fa-solid fa-store"></i>
+                            <div data-i18n="Account Settings">Address Manage</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="{{ route('createDistrict') }}" class="menu-link">
+                                    <div data-i18n="Account">District</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="{{ route('createUpazila') }}" class="menu-link">
+                                    <div data-i18n="Notifications">Upazila</div>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
 
                 </ul>

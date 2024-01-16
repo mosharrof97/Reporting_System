@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Carbon\Carbon;
 
 class User extends Authenticatable
 {
@@ -24,7 +25,7 @@ class User extends Authenticatable
        'number',
        'email',
        'role',
-       'district',
+       'district_id',
        'image',
        'password',
     ];
@@ -52,5 +53,37 @@ class User extends Authenticatable
     public function submit_reports(): HasMany
     {
         return $this->hasMany(SubmitReport::class, 'user_id');
+    }
+
+    public function appointment(): HasMany
+    {
+    return $this->hasMany(Schedule::class, 'user_id');
+    }
+
+    public function district(): BelongsTo
+    {
+        return $this->BelongsTo(District::class );
+    }
+
+    public function soldCount(){
+        return SubmitReport::where('visit_status', 'Confirmed')->count();
+
+    }
+
+    public function getTodayData(){
+
+        return SubmitReport::whereDate('created_at', today())->count();
+    }
+
+    public function runningMonthlyData(){
+
+        $startOfMonth = Carbon::now()->startOfMonth();
+        return SubmitReport::where('created_at', '>=', $startOfMonth)->count();
+    }
+
+    public function runningYearlyData(){
+
+        $startOfYear = Carbon::now()->startOfYear();
+        return SubmitReport::where('created_at', '>=', $startOfYear)->count();
     }
 }

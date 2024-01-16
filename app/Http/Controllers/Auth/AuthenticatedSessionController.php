@@ -14,7 +14,7 @@ class AuthenticatedSessionController extends Controller
 {
      public function home(): View
      {
-        return view('home');
+        return view('Home');
      }
 
     /**

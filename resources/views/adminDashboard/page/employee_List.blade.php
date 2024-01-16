@@ -17,43 +17,61 @@
 
                 <div class="card-header">
                     <h4 class="card-title">Employee List</h4>
-                    <button type="button" class="btn btn-primary" href="" data-bs-toggle="modal"
-                        data-bs-target="#exampleModal">Create Employee</button>
+                    <form action="" method="get" class="d-flex align-items-center">
+                        <div class="me-2">
+                            <input type="date" class="form-control" name="start_date">
+                        </div>
+                        <div class="me-2">
+                            <input type="date" class="form-control" name="end_date">
+                        </div>
+                        <div class="me-5">
+                            <input type="submit" class="btn btn-primary" value="Filter">
+                        </div>
+                        <div class="">
+                            <button type="button" class="btn btn-primary" href="" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal">Create Employee</button>
+                        </div>
+                    </form>
+
+
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table primary-table  table-bordered table-responsive-sm">
                             <thead class="thead-primary">
                                 <tr>
-                                    <th scope="col">ID </th>
-                                    <th scope="col">Photo</th>
-                                    <th scope="col">Join Date</th>
-                                    <th scope="col">Employee Name</th>
-                                    <th scope="col">Mobile</th>
-                                    <th scope="col">Email ID</th>
-                                    <th scope="col">District</th>
-                                    <th scope="col">Total Visit</th>
-                                    <th scope="col">Total T A</th>
-                                    <th scope="col">T.A Paid</th>
-                                    <th scope="col">T.A Dues</th>
-                                    <th scope="col">Total Sell</th>
+                                    <th class="text-nowrap" scope="col">ID </th>
+                                    <th class="text-nowrap" scope="col">Photo</th>
+                                    <th class="text-nowrap" scope="col">Join Date</th>
+                                    <th class="text-nowrap" scope="col">Employee Name</th>
+                                    <th class="text-nowrap" scope="col">Mobile</th>
+                                    <th class="text-nowrap" scope="col">Email ID</th>
+                                    <th class="text-nowrap" scope="col">District</th>
+                                    <th class="text-nowrap" scope="col">Total Visit</th>
+                                    <th class="text-nowrap" scope="col">Total T A</th>
+                                    <th class="text-nowrap" scope="col">T.A Paid</th>
+                                    <th class="text-nowrap" scope="col">T.A Dues</th>
+                                    <th class="text-nowrap" scope="col">Total Sell</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($emplo as $data)
                                     <tr>
-                                        <td>{{ $data->id + 1000 }}</td>
-                                        <td></td>
-                                        <td>{{ $data->created_at->format('Y-m-d') }}</td>
-                                        <td>{{ $data->name }}</td>
-                                        <td>{{ $data->number }}</td>
-                                        <td>{{ $data->email }}</td>
-                                        <td>{{ $data->district }}</td>
-                                        <td>{{ $data->submit_reports_count }}</td>
-                                        <td>1600.00</td>
-                                        <td>100.00</td>
-                                        <td>600.00</td>
-                                        <td>10</td>
+                                        <td class="text-nowrap">{{ $data->id + 1000 }}</td>
+                                        <td class="text-nowrap">
+                                            <img src="{{ asset('upload/UserImage/' . $data->image) }}" alt=""
+                                                width="55" height="50">
+                                        </td>
+                                        <td class="text-nowrap">{{ $data->created_at->format('Y-m-d') }}</td>
+                                        <td class="text-nowrap">{{ $data->name }}</td>
+                                        <td class="text-nowrap">{{ $data->number }}</td>
+                                        <td class="text-nowrap">{{ $data->email }}</td>
+                                        <td class="text-nowrap">{{ $data->district->name }}</td>
+                                        <td class="text-nowrap">{{ $data->submit_reports_count }}</td>
+                                        <td class="text-nowrap">0.00</td>
+                                        <td class="text-nowrap">0.00</td>
+                                        <td class="text-nowrap">0.00</td>
+                                        <td class="text-nowrap">{{ $data->soldCount() }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -76,7 +94,7 @@
                 </div>
                 <div class="modal-body px-5 pb-3">
 
-                    <form action="{{ route('registered') }}" method="post">
+                    <form action="{{ route('registered') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-3">
                             <input type="text" class="form-control" id="" name="name"
@@ -123,15 +141,19 @@
                         </div>
 
                         <div class="mb-3">
-                            <input class="form-control bg-light" list="datalistOptions" id="exampleDataList" name="district"
-                                placeholder="Select District">
+                            {{-- <input class="form-control bg-light" list="datalistOptions" id="exampleDataList"
+                                name="district" placeholder="Select District">
                             <datalist id="datalistOptions">
-                                <option value="Jan">
-                                <option value="Feb">
-                                <option value="March">
-                                <option value="April">
-                                <option value="May">
-                            </datalist>
+                                @foreach ($district as $data)
+                                    <option value="{{Jan}}"></option>
+                                @endforeach
+                            </datalist> --}}
+                            <select class="form-control" name="district" id="">
+                                <option value="">Select District</option>
+                                @foreach ($district as $data)
+                                    <option value="{{ $data->id }}">{{ $data->name }}</option>
+                                @endforeach
+                            </select>
 
                             @error('district')
                                 <span id="" class="form-text text-danger">{{ $message }}</span>

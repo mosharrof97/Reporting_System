@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\District;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -23,18 +24,16 @@ class RegisteredUserController extends Controller
 
      public function index()
      {
-        // $emplo = User::where('role', 'user')->orderBy('id', 'ASC')->paginate(15);
-
-        return view('adminDashboard.page.dashboard');
+       //
      }
 
 
     public function employeeList()
     {
-         $emplo = User::where('role', '2')->withCount('submit_reports')->orderBy('id', 'ASC')->paginate(15);
-        // $users = User::withCount('products')->get();
+         $emplo = User::where('role', '2')->withCount('submit_reports')->orderBy('id', 'ASC') ->paginate(15);
+         $district = District::get();
         
-        return view('adminDashboard.page.employee_List', compact('emplo'));
+        return view('adminDashboard.page.employee_List', compact(['emplo','district']));
     }
 
 
@@ -46,36 +45,6 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         
-        // $request->validate([
-        //     'name' => ['required', 'string', 'max:255'],
-        //     'number' => ['required', 'max:15', 'unique:'.User::class],
-        //     'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-        //     'district' => ['required', 'string', 'max:255'],
-        //     'image' => ['required'],
-        //     'password' => ['required', 'confirmed', Rules\Password::defaults()],  
-        // ]);
-
-        // $imageName ='User'.'_'. time() . '_' . mt_rand(100000, 20000000) . '.' . $request->file('image')->extension();
-
-        // dd($request);
-        // $request->image->move('upload/UserImage', $imageName);
-
-
-        // $user = User::create([
-        //     'name' => $request->name,
-        //     'number' => $request->number,
-        //     'email' => $request->email,
-        //     'role' => 'user',
-        //     'district' => $request->district,
-        //     'image' => $imageName,
-        //     'password' => Hash::make($request->password), 
-        // ]);
-
-        // // event(new Registered($user));
-
-        // // Auth::login($user);
-
-        // return back();
 
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -92,9 +61,11 @@ class RegisteredUserController extends Controller
         $imageName = 'User_' . time() . '_' . mt_rand(100000, 20000000) . '.' . $request->file('image')->extension();
 
         //  dd($imageName);
-        $request->file('image')->move(storage_path('app/public/UserImage'), $imageName);
-        }
+        $request->file('image')->move(public_path('upload/UserImage'), $imageName);
 
+        // $request->file('image')->move(storage_path('app/public/UserImage'), $imageName);
+        }
+// F:\Laravel Project\Reporting_System\public\upload\UserImage
         // dd($request);
         
         $user = User::create([
@@ -102,7 +73,7 @@ class RegisteredUserController extends Controller
             'number' => $request->number,
             'email' => $request->email,
             'role' => '2',
-            'district' => $request->district,
+            'district_id' => $request->district,
             'image' => $imageName ?? 'No Image',
             'password' => Hash::make($request->password),
         ]);

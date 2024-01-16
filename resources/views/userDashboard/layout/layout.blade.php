@@ -50,11 +50,12 @@
         {{-- --**********************************
             Nav header start
         ***********************************-- --}}
-        <div class="nav-header">
-            <a href="{{ route('adminDashboard') }}" class="brand-logo">
-                <img class="logo-abbr" src="{{ asset('images/logo.png') }}" alt="">
-                <img class="logo-compact" src="{{ asset('images/logo-text.png') }}" alt="">
-                <img class="brand-title" src="{{ asset('images/logo-text.png') }}" alt="">
+        <div class="nav-header bg-white">
+            <a href="{{ route('userDashboard') }}" class="brand-logo">
+                {{-- <img class="logo-abbr" src="{{ asset('images/logo.png') }}" alt="">
+                <img class="logo-compact" src="{{ asset('images/logo-text.png') }}" alt=""> --}}
+                <img class="brand-title  " style="max-width:100px" src="{{ asset('images/logo-text.png') }}"
+                    alt="">
             </a>
 
             <div class="nav-control">
@@ -115,7 +116,13 @@
                             </li>
                             <li class="nav-item dropdown header-profile">
                                 <a class="nav-link" href="#" role="button" data-toggle="dropdown">
-                                    <i class="fa-solid fa-user"></i>
+                                    @if (auth()->user()->image)
+                                        <img class="rounded" src="{{ auth()->user()->image }}" alt=""
+                                            width="35" height="35">
+                                    @else
+                                        <i class="fa-solid fa-user"></i>
+                                    @endif
+
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <a href="./app-profile.html" class="dropdown-item">
@@ -160,6 +167,13 @@
                         <a class="has-arrow" href="{{ route('userDashboard') }}" aria-expanded="false">
                             <i class="fa-solid fa-gauge"></i>
                             <span class="nav-text">Dashboard</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="has-arrow" href="{{ route('schedule_Report') }}" aria-expanded="false">
+                            <i class="fa-solid fa-store"></i>
+                            <span class="nav-text">Appointmen</span>
                         </a>
                     </li>
 
@@ -238,7 +252,9 @@
 
     <script src="{{ asset('js/dashboard/dashboard-2.js') }}"></script>
     {{-- -- Circle progress -- --}}
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
     </script>

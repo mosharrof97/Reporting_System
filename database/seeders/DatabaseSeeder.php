@@ -20,10 +20,10 @@ class DatabaseSeeder extends Seeder
 
             'name' => 'Admin',
             'number' => '01775421258',
-            'email' => 'admin@gmail.com',
+            'email' => 'info@teamc.com.bd',
             'role' => 1,
-            'district'=>'Dhaka',
-            'password' => 'admin@gmail.com',
+            'district_id'=>'1',
+            'password' => '0987654321',
             // 'password_confirmation' => 'admin@gmail.com',
         ]);
     }

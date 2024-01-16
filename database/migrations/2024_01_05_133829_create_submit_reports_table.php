@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('h_teacher_name');
             $table->string('number');
             $table->string('eiin_number');
-            $table->string('district');
-            $table->string('upazila');
+            $table->foreignId('district_id');
+            $table->foreignId('upazila_id');
             $table->string('visit_status');
             $table->string('school_comment');
             $table->string('image');
