@@ -106,8 +106,8 @@
                                     height="50" class="pe-2">
                             </div>
                             <div class=" col-9 text-start">
-                                <h5>{{ $data->name }}</h5>
-                                <p class="text-dark m-0">Today Visit- {{ $data->getTodayData() }}</p>
+                                <h5>{{ $data->name }} ({{ $data->district->name }})</h5>
+                                <p class="text-dark m-0">Today Visit- {{ $data->getTodayData() }} </p>
                                 <p class="text-dark m-0">Current Month - {{ $data->runningMonthlyData() }}</p>
                                 <p class="text-dark m-0">Current Year- {{ $data->runningYearlyData() }}</p>
                             </div>

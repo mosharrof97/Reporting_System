@@ -22,6 +22,7 @@ return new class extends Migration
             $table->foreignId('upazila_id');
             $table->string('visit_status');
             $table->string('school_comment');
+            $table->integer('visit_count');
             $table->string('image');
             $table->decimal('t_a_bill',10,2);
             $table->rememberToken();

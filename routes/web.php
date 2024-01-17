@@ -27,9 +27,14 @@ Route::prefix('admin')->middleware(['auth', 'checkRole: 1'])->group(function () 
     Route::get('/', [AdminController::class, 'index'])->name('adminDashboard');
      Route::post('register', [RegisteredUserController::class, 'store']) -> name('registered');
      Route::get('/employee_List', [RegisteredUserController::class, 'employeeList'])->name('employee_List');
-     Route::get('/marketing_Report', [MarketingReportController::class, 'index'])->name('marketing_Report');
+     Route::get('/employee_filter', [RegisteredUserController::class, 'employeeFilter'])->name('employee_filter');
+     Route::get('/marketing_Report', [MarketingReportController::class,
+     'index'])->name('marketing_Report');
+    // Api
+    Route::get('report_details', [MarketingReportController::class,'reportDetails'])->name('report_details');
+    //  Api
 
-      Route::get('schedule_list', [SubmitController::class,'scheduleList'])->name('schedule_list');
+    Route::get('schedule_list', [SubmitController::class,'scheduleList'])->name('schedule_list');
 
     Route::get('/create_district', [AddressController::class, 'districtCreate'])->name('createDistrict');
     Route::post('/store_district', [AddressController::class, 'districtStore'])->name('storeDistrict');

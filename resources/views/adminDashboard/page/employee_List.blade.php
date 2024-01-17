@@ -17,7 +17,8 @@
 
                 <div class="card-header">
                     <h4 class="card-title">Employee List</h4>
-                    <form action="" method="get" class="d-flex align-items-center">
+                    <form action="{{ route('employee_filter') }}" method="get" class="d-flex align-items-center">
+                        {{-- @csrf --}}
                         <div class="me-2">
                             <input type="date" class="form-control" name="start_date">
                         </div>
@@ -49,6 +50,7 @@
                                     <th class="text-nowrap" scope="col">District</th>
                                     <th class="text-nowrap" scope="col">Total Visit</th>
                                     <th class="text-nowrap" scope="col">Total T A</th>
+                                    <th class="text-nowrap" scope="col">Total T A Payable</th>
                                     <th class="text-nowrap" scope="col">T.A Paid</th>
                                     <th class="text-nowrap" scope="col">T.A Dues</th>
                                     <th class="text-nowrap" scope="col">Total Sell</th>
@@ -62,12 +64,13 @@
                                             <img src="{{ asset('upload/UserImage/' . $data->image) }}" alt=""
                                                 width="55" height="50">
                                         </td>
-                                        <td class="text-nowrap">{{ $data->created_at->format('Y-m-d') }}</td>
+                                        <td class="text-nowrap">{{ $data->created_at->format('d-M-Y') }}</td>
                                         <td class="text-nowrap">{{ $data->name }}</td>
                                         <td class="text-nowrap">{{ $data->number }}</td>
                                         <td class="text-nowrap">{{ $data->email }}</td>
                                         <td class="text-nowrap">{{ $data->district->name }}</td>
                                         <td class="text-nowrap">{{ $data->submit_reports_count }}</td>
+                                        <td class="text-nowrap">0.00</td>
                                         <td class="text-nowrap">0.00</td>
                                         <td class="text-nowrap">0.00</td>
                                         <td class="text-nowrap">0.00</td>

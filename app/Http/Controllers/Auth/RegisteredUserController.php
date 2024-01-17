@@ -30,10 +30,24 @@ class RegisteredUserController extends Controller
 
     public function employeeList()
     {
+
          $emplo = User::where('role', '2')->withCount('submit_reports')->orderBy('id', 'ASC') ->paginate(15);
          $district = District::get();
         
         return view('adminDashboard.page.employee_List', compact(['emplo','district']));
+    }
+
+    public function employeeFilter(Request $request)
+    {
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+        
+        $emplo = User::where('role', '2') ->whereDate('created_at','>=',$start_date)->
+            whereDate('created_at','<=',$end_date)->
+            orderBy('id', 'ASC') ->paginate(15);
+        $district = District::get();
+
+    return view('adminDashboard.page.employee_List', compact(['emplo','district']));
     }
 
 

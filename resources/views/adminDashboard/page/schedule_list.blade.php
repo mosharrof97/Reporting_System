@@ -71,7 +71,7 @@
                                     <th class="text-nowrap">Mobile No</th>
                                     <th class="text-nowrap">District</th>
                                     <th class="text-nowrap"> Upazila</th>
-                                    <th class="text-nowrap">schedule Date</th>
+                                    <th class="text-nowrap">Appointment Date</th>
                                     <th class="text-nowrap">Comment</th>
                                     <th class="text-nowrap">DMO Name</th>
                                     <th class="text-nowrap">View</th>

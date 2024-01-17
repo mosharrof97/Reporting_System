@@ -29,6 +29,7 @@ class SubmitReport extends Model
        'upazila_id',
        'visit_status',
        'school_comment',
+       'visit_count',
        'image',
        't_a_bill',
     ];

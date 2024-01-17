@@ -54,7 +54,7 @@ class SubmitController extends Controller
             'school_name' => ['required', 'string', 'max:255'],
             'h_teacher_name' => ['required', 'string', 'max:255'],
             'number' => ['required', 'max:15'],
-            'eiin_number' => ['required', 'max:15'],
+            'eiin_number' => ['required', 'max:15','unique:'.SubmitReport::class],
             'district_id' => ['required', 'string', 'max:255'],
             'upazila_id' => ['required', 'string', 'max:255'],
             'visit_status' => ['required', 'string', 'max:255'],
@@ -82,38 +82,93 @@ class SubmitController extends Controller
             'upazila_id' => $request->upazila_id,
             'visit_status' => $request->visit_status,
             'school_comment' => $request->school_comment,
+            'visit_count' =>1,
             'image' => $imageName ?? 'No Image',
             't_a_bill' => $request->t_a_bill,
         ];
         
         if($request->schedule){
-            
-            try {
-                DB::beginTransaction();
-               $report_id= SubmitReport::create($data);
-                SubmitDetails::create([
-                    'report_id'=>$report_id->id,
-                    'comment' => $request->school_comment,
-                ]);
+            $schedule = Schedule::where('school_name', $request->schedule)->first();
+            if($schedule ){
+                $s_eiin_number = SubmitReport::where('eiin_number', $schedule->eiin_number)->first();
+                
+                if($s_eiin_number){
+                    try {
+                        DB::beginTransaction();
+                        $s_eiin_number->update(['visit_count' => $s_eiin_number->visit_count + 1]);
+                        SubmitDetails::create([
+                            'report_id'=>$s_eiin_number->id,
+                            'comment' => $request->school_comment,
+                        ]);
 
-                $dataDelete = Schedule::where('school_name', $request->schedule)->first();
-                $dataDelete->delete();
-                DB::commit();
-                return back()->with('success','Data Input Successfully');
-            } catch (\Exception $e) {
-                DB::rollback();
+                        $dataDelete = Schedule::where('school_name', $request->schedule)->first();
+                        $dataDelete->delete();
+                        DB::commit();
+                        return back()->with('success','Data Input Successfully');
+                    } catch (\Exception $e) {
+                        DB::rollback();
+                        return back()->with('error','Data Input Not success');
+                    }
+                }else{
+                     try {
+                        DB::beginTransaction();
+                        $report_id= SubmitReport::create($data);
+                        SubmitDetails::create([
+                            'report_id'=>$report_id->id,
+                            'comment' => $request->school_comment,
+                        ]);
+
+                        $dataDelete = Schedule::where('school_name', $request->schedule)->first();
+                        $dataDelete->delete();
+                        DB::commit();
+                        return back()->with('success','Data Input Successfully');
+                     } catch (\Exception $e) {
+                        DB::rollback();
+                     }
+
+                }
+            } else {
+            return back()->with('error', 'Schedule not found');
             }
-        // }elseif($request->previous_school){
-        //     try {
-        //         DB::beginTransaction();
+            
+        }elseif($request->previous_school){
+             $submitReport = SubmitReport::where('school_name', $request->previous_school)->first();
 
-        //         SubmitReport::create($data);
-        //         SubmitDetails::create(['comment' => $request->school_comment,]);
-        //         DB::commit();
-        //         return back()->with('success','Data Input Successfully');
-        //     } catch (\Exception $e) {
-        //         DB::rollback();
-        //     }
+             if($submitReport ){
+                $sub_eiin_number = SubmitReport::where('eiin_number', $submitReport->eiin_number)->first();
+                
+                if($sub_eiin_number){
+                    try {
+                        DB::beginTransaction();
+
+                        $s_eiin_number->update(['visit_count' => $s_eiin_number->visit_count + 1]);
+                        SubmitDetails::create([
+                            'report_id'=>$sub_eiin_number->id,
+                            'comment' => $request->school_comment,
+                        ]);
+                        DB::commit();
+                        return back()->with('success','Data Input Successfully');
+                    } catch (\Exception $e) {
+                        DB::rollback();
+                    }
+                }else{
+                    try {
+                        DB::beginTransaction();
+
+                        $report_id = SubmitReport::create($data);
+                        SubmitDetails::create([
+                            'report_id'=>$report_id->id,
+                            'comment' => $request->school_comment,
+                        ]);
+                        DB::commit();
+                        return back()->with('success','Data Input Successfully');
+                    } catch (\Exception $e) {
+                        DB::rollback();
+                    }
+                }
+            }else{
+                 return back()->with('error', 'Previous Data not found');
+            }
         }else{
             try {
                 DB::beginTransaction();
@@ -128,8 +183,7 @@ class SubmitController extends Controller
             } catch (\Exception $e) {
                 DB::rollback();
             } 
-        }
-        
+        } 
     }
 
     public function view($id)
