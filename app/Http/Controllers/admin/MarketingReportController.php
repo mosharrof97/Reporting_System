@@ -23,10 +23,10 @@ class MarketingReportController extends Controller
     public function reportDetails(Request $request, $id )
     { 
         $reportDetails = SubmitDetails::where('report_id',$request->report_id)->orderBy('id', 'ASC') ->get();
-
+       dd($request->report_id);
          return response()->json([
          'status'=> true,
          'report' =>$reportDetails,
-         ]);
+        ]);
     }
 }

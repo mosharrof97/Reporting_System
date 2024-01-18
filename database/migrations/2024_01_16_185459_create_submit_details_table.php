@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('report_id');
             $table->string('comment');
+            $table->string('visit_status')->nullable();
+            $table->string('t_a_bill')->nullable();
             $table->timestamps();
         });
     }

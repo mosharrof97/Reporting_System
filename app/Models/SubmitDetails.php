@@ -14,6 +14,8 @@ class SubmitDetails extends Model
     protected $fillable = [
     'report_id',
     'comment',
+    'visit_status',
+    't_a_bill',
     ];
 
     public function report(): BelongsTo

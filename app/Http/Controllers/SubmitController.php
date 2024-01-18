@@ -54,7 +54,7 @@ class SubmitController extends Controller
             'school_name' => ['required', 'string', 'max:255'],
             'h_teacher_name' => ['required', 'string', 'max:255'],
             'number' => ['required', 'max:15'],
-            'eiin_number' => ['required', 'max:15','unique:'.SubmitReport::class],
+            'eiin_number' => ['required', 'max:15'],
             'district_id' => ['required', 'string', 'max:255'],
             'upazila_id' => ['required', 'string', 'max:255'],
             'visit_status' => ['required', 'string', 'max:255'],
@@ -99,6 +99,8 @@ class SubmitController extends Controller
                         SubmitDetails::create([
                             'report_id'=>$s_eiin_number->id,
                             'comment' => $request->school_comment,
+                            'visit_status' => $request->visit_status,
+                            't_a_bill' => $request->t_a_bill,
                         ]);
 
                         $dataDelete = Schedule::where('school_name', $request->schedule)->first();
@@ -116,6 +118,8 @@ class SubmitController extends Controller
                         SubmitDetails::create([
                             'report_id'=>$report_id->id,
                             'comment' => $request->school_comment,
+                            'visit_status' => $request->visit_status,
+                            't_a_bill' => $request->t_a_bill,
                         ]);
 
                         $dataDelete = Schedule::where('school_name', $request->schedule)->first();
@@ -141,24 +145,12 @@ class SubmitController extends Controller
                     try {
                         DB::beginTransaction();
 
-                        $s_eiin_number->update(['visit_count' => $s_eiin_number->visit_count + 1]);
+                        $sub_eiin_number->update(['visit_count' => $sub_eiin_number->visit_count + 1]);
                         SubmitDetails::create([
                             'report_id'=>$sub_eiin_number->id,
                             'comment' => $request->school_comment,
-                        ]);
-                        DB::commit();
-                        return back()->with('success','Data Input Successfully');
-                    } catch (\Exception $e) {
-                        DB::rollback();
-                    }
-                }else{
-                    try {
-                        DB::beginTransaction();
-
-                        $report_id = SubmitReport::create($data);
-                        SubmitDetails::create([
-                            'report_id'=>$report_id->id,
-                            'comment' => $request->school_comment,
+                            'visit_status' => $request->visit_status,
+                            't_a_bill' => $request->t_a_bill,
                         ]);
                         DB::commit();
                         return back()->with('success','Data Input Successfully');
@@ -166,6 +158,23 @@ class SubmitController extends Controller
                         DB::rollback();
                     }
                 }
+                // else{
+                //     try {
+                //         DB::beginTransaction();
+
+                //         $report_id = SubmitReport::create($data);
+                //         SubmitDetails::create([
+                //             'report_id'=>$report_id->id,
+                //             'comment' => $request->school_comment,
+                //             'visit_status' => $request->visit_status,
+                //             't_a_bill' => $request->t_a_bill,
+                //         ]);
+                //         DB::commit();
+                //         return back()->with('success','Data Input Successfully');
+                //     } catch (\Exception $e) {
+                //         DB::rollback();
+                //     }
+                // }
             }else{
                  return back()->with('error', 'Previous Data not found');
             }
@@ -177,6 +186,8 @@ class SubmitController extends Controller
                 SubmitDetails::create([
                     'report_id'=>$report_id->id,
                     'comment' => $request->school_comment,
+                    'visit_status' => $request->visit_status,
+                    't_a_bill' => $request->t_a_bill,
                 ]);
                 DB::commit();
                 return back()->with('success','Data Input Successfully');
@@ -188,7 +199,6 @@ class SubmitController extends Controller
 
     public function view($id)
     {
-    
         $submitReport = SubmitReport::where('user_id', $id)->first();
         return view('userDashboard.page.single_report', compact('submitReport'));
     }
