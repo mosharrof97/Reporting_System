@@ -28,6 +28,11 @@ Route::prefix('admin')->middleware(['auth', 'checkRole: 1'])->group(function () 
      Route::post('register', [RegisteredUserController::class, 'store']) -> name('registered');
      Route::get('/employee_List', [RegisteredUserController::class, 'employeeList'])->name('employee_List');
      Route::get('/employee_filter', [RegisteredUserController::class, 'employeeFilter'])->name('employee_filter');
+     Route::get('/edit_employee/{id}', [RegisteredUserController::class, 'employeeEdit'])->name('employeeEdit');
+     Route::patch('/update_employee/{id}', [RegisteredUserController::class,
+     'employeeUpdate'])->name('employeeUpdated');
+     Route::delete('/delete_employee/{id}', [RegisteredUserController::class, 'employeeDelete'])->name('delete_employee');
+     
      Route::get('/marketing_Report', [MarketingReportController::class,
      'index'])->name('marketing_Report');
     // Api

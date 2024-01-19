@@ -30,7 +30,6 @@ class RegisteredUserController extends Controller
 
     public function employeeList()
     {
-
          $emplo = User::where('role', '2')->withCount('submit_reports')->orderBy('id', 'ASC') ->paginate(15);
          $district = District::get();
         
@@ -57,9 +56,7 @@ class RegisteredUserController extends Controller
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request): RedirectResponse
-    {
-        
-
+    {    
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'number' => ['required', 'max:15', 'unique:'.User::class],
@@ -79,8 +76,6 @@ class RegisteredUserController extends Controller
 
         // $request->file('image')->move(storage_path('app/public/UserImage'), $imageName);
         }
-// F:\Laravel Project\Reporting_System\public\upload\UserImage
-        // dd($request);
         
         $user = User::create([
             'name' => $request->name,
@@ -92,6 +87,41 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        return back();
+    }
+
+    // Edit & Update User
+    public function employeeEdit($id){
+        $district = District::get();
+        $user = User::where('id',$id)->first();
+        return view('adminDashboard.page.editForm',compact('user', 'district'));
+    }
+
+    public function employeeUpdate(Request $request, $id ){
+        $request->validate([
+        'name' => ['required', 'string', 'max:255'],
+        'number' => ['required', 'max:15', 'unique:'.User::class],
+        'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+        'district' => ['required', 'string', 'max:255'],
+        'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
+
+
+        $user = User::where('id',$id)->first();
+        $user->update([
+            'name' => $request->name,
+            'number' => $request->number,
+            'email' => $request->email,
+            'district_id' => $request->district,
+            'password' => Hash::make($request->password),
+        ]);
+
+        return back();
+    }
+    
+    public function employeeDelete($id){
+        $user = User::where('id', $id)->first();
+        $user->delete();
         return back();
     }
 }

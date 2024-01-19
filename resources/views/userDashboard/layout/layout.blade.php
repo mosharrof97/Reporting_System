@@ -117,17 +117,18 @@
                             <li class="nav-item dropdown header-profile">
                                 <a class="nav-link" href="#" role="button" data-toggle="dropdown">
                                     @if (auth()->user()->image)
-                                        <img class="rounded" src="{{ auth()->user()->image }}" alt=""
-                                            width="35" height="35">
+                                        <img class="rounded"
+                                            src="{{ asset('upload/UserImage/' . auth()->user()->image) }}"
+                                            alt="" width="35" height="35">
                                     @else
                                         <i class="fa-solid fa-user"></i>
                                     @endif
 
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a href="./app-profile.html" class="dropdown-item">
+                                    <a href="{{ route('profile.edit') }}" class="dropdown-item">
                                         <i class="icon-user"></i>
-                                        <span class="ml-2">Profile </span>
+                                        <span class="ml-2">Manage Profile </span>
                                     </a>
                                     <a href="./email-inbox.html" class="dropdown-item">
                                         <i class="icon-envelope-open"></i>
@@ -226,7 +227,8 @@
         ***********************************-- --}}
         <div class="footer">
             <div class="copyright">
-                <p>Copyright © Designed &amp; Developed by <a href="#" target="_blank">Sheuly</a> 2024</p>
+                <p>Copyright © 2024. &amp; Developed by <a href="#" target="_blank">Teamx Technologies</a> </p>
+                {{-- Copyright 2024. Developed By Teamx Technologies --}}
             </div>
         </div>
         {{-- --**********************************

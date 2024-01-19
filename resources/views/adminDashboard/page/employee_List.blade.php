@@ -54,6 +54,7 @@
                                     <th class="text-nowrap" scope="col">T.A Paid</th>
                                     <th class="text-nowrap" scope="col">T.A Dues</th>
                                     <th class="text-nowrap" scope="col">Total Sell</th>
+                                    <th class="text-nowrap text-center" scope="col" colspan="">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -75,6 +76,15 @@
                                         <td class="text-nowrap">0.00</td>
                                         <td class="text-nowrap">0.00</td>
                                         <td class="text-nowrap">{{ $data->soldCount() }}</td>
+                                        <td class="text-nowrap">
+                                            <form action="{{ route('delete_employee', $data->id) }}" method="Post">
+                                                <a class="btn btn-primary"
+                                                    href="{{ route('employeeEdit', $data->id) }}">Edit</a>
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                            </form>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -181,4 +191,99 @@
             </div>
         </div>
     </div>
+
+    {{-- Edit User Model --}}
+    {{-- <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header px-5 pt-4">
+                    <h1 class="modal-title fs-5" id="editUserModalLabel">New message</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body px-5 pb-3">
+
+                    <form action="{{ route('registered') }}" method="post" enctype="multipart/form-data">
+                        @csrf
+                        <div class="mb-3">
+                            <input type="text" class="form-control" id="" name="name"
+                                placeholder="Employee Name">
+                            @error('name')
+                                <span id="" class="form-text text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <input type="text" class="form-control" id="" name="number"
+                                placeholder="Mobile Number">
+
+                            @error('number')
+                                <span id="" class="form-text text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <input type="email" class="form-control" id="" name="email"
+                                placeholder="Email Address">
+
+                            @error('email')
+                                <span id="" class="form-text text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <input type="password" class="form-control" id="" name="password"
+                                placeholder="Set Password ">
+
+                            @error('password')
+                                <span id="" class="form-text text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <input type="password" class="form-control" id="" name="password_confirmation"
+                                placeholder="Set Confirmation Password  ">
+
+                            @error('password_confirmation')
+                                <span id="" class="form-text text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <select class="form-control" name="district" id="">
+                                <option value="">Select District</option>
+                                @foreach ($district as $data)
+                                    <option value="{{ $data->id }}">{{ $data->name }}</option>
+                                @endforeach
+                            </select>
+
+                            @error('district')
+                                <span id="" class="form-text text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <input type="file" class="form-control" id="" name="image"
+                                placeholder="Upload Photo">
+
+                            @error('image')
+                                <span id="" class="form-text text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3 text-end">
+                            <input type="submit" class="btn btn-primary" value="Submit form">
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div> --}}
+
+    <script>
+        // $("document").ready(function() {
+        //     $()
+
+        // })
+    </script>
 @endsection
