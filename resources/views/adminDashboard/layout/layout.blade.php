@@ -25,7 +25,17 @@
         integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <title>Reporting System </title>
+
+    <!-- Include jQuery -->
+    {{-- <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> --}}
+
+    <!-- Include jQuery UI -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <!-- Include jQuery UI CSS (for styling) -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <title>DMO Reporting System </title>
 </head>
 
 <body>
@@ -174,7 +184,7 @@
                     <li>
                         <a class="has-arrow" href="{{ route('schedule_list') }}" aria-expanded="false">
                             <i class="fa-solid fa-store"></i>
-                            <span class="nav-text">Appointmen List</span>
+                            <span class="nav-text">Appointment List</span>
                         </a>
                     </li>
 

@@ -54,8 +54,6 @@ class SubmitReport extends Model
         return $this->hasMany(SubmitDetails::class, 'report_id');
     }
 
-
-    
     public function count(){
         
         return SubmitReport::where('eiin_number', $this->eiin_number)->count(); 
@@ -66,21 +64,21 @@ class SubmitReport extends Model
         return SubmitReport::where('visit_status', 'Confirmed')->count(); 
     }
 
-    public function getTodayData(){
+    // public function getTodayData(){
 
-        return SubmitReport::whereDate('created_at', today())->count(); 
-    }
+    //     return SubmitReport::whereDate('created_at', today())->count(); 
+    // }
 
-     public function runningMonthlyData(){
+    //  public function runningMonthlyData(){
 
-        $startOfMonth = Carbon::now()->startOfMonth();
-        return SubmitReport::where('created_at', '>=', $startOfMonth)->count(); 
-     }
+    //     $startOfMonth = Carbon::now()->startOfMonth();
+    //     return SubmitReport::where('created_at', '>=', $startOfMonth)->count(); 
+    //  }
 
-      public function runningYearlyData(){
+    //   public function runningYearlyData(){
 
-        $startOfYear = Carbon::now()->startOfYear();
-        return SubmitReport::where('created_at', '>=', $startOfYear)->count(); 
-      }
+    //     $startOfYear = Carbon::now()->startOfYear();
+    //     return SubmitReport::where('created_at', '>=', $startOfYear)->count(); 
+    //   }
     
 }

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\SubmitReport;
 use App\Models\District;
 use App\Models\Upazila;
+use App\Models\User;
 use App\Models\Schedule;
 use App\Models\SubmitDetails;
 use DB;
@@ -55,22 +56,20 @@ class SubmitController extends Controller
             'h_teacher_name' => ['required', 'string', 'max:255'],
             'number' => ['required', 'max:15'],
             'eiin_number' => ['required', 'max:15'],
-            'district_id' => ['required', 'string', 'max:255'],
-            'upazila_id' => ['required', 'string', 'max:255'],
+            'district_id' => ['required', 'max:255'],
+            'upazila_id' => ['required',  'max:255'],
             'visit_status' => ['required', 'string', 'max:255'],
             'school_comment' => ['required', 'string', 'max:255'],
             'image' => ['required'],
             't_a_bill' => ['required', 'max:255'],
 
-            ], [
-            'image.required' => 'Please upload an image.',
-        ]);
+            ]);
        
-        if ($request->hasFile('image')) {
-            $imageName = 'User_' . time() . '_' . mt_rand(100000, 20000000) . '.' . $request->file('image')->extension();
+        // if ($request->hasFile('image')) {
+        //     $imageName = 'User_' . time() . '_' . mt_rand(100000, 20000000) . '.' . $request->file('image')->extension();
 
-            $request->file('image')->move(storage_path('public\images'), $imageName);
-         }
+        //     $request->file('image')->move(storage_path('public\images'), $imageName);
+        //  }
        
         $data = [
             'user_id'=>Auth::user()->id,
@@ -83,7 +82,6 @@ class SubmitController extends Controller
             'visit_status' => $request->visit_status,
             'school_comment' => $request->school_comment,
             'visit_count' =>1,
-            'image' => $imageName ?? 'No Image',
             't_a_bill' => $request->t_a_bill,
         ];
         
@@ -205,16 +203,52 @@ class SubmitController extends Controller
 
 
 // Schedule
- public function scheduleList()
+ public function scheduleList(Request $request)
  {
-    $data=[
+    if ($request->input('query')) {
         
-    'schedule' => Schedule::get(),
-    ];
-    return view('adminDashboard.page.schedule_list',
-    $data);
+        $query = $request->input('query');
+        // $results = User::where('name', 'like', '%' . $query . '%')->pluck('name');
+        $results = User::where('name', 'like', '%' . $query . '%')->pluck('name');
+        return response()->json($results);
+    }elseif($request->input('dmo')){
+        $user_id = User::where('name','like', $request->dmo.'%'  )->pluck('id');
+
+        $schedule= Schedule::where('user_id', $user_id )->with('user', 'district', 'upazila')->get();
+
+        return response()->json([
+            'status'=>true,
+            'schedule' =>$schedule,
+        ]);
+    }else{
+        $data=[
+            'schedule' => Schedule::get(),
+        ];
+        return view('adminDashboard.page.schedule_list',
+        $data);
+    }
  }
 
+  public function scheduleList_api(Request $request)
+  {
+    if($request->ajax()){
+        $user_id = User::where('name', $request->dmo )->pluck('id');
+
+        $schedule= Schedule::where('user_id', $user_id )->with('user', 'district', 'upazila')->get();
+
+        return response()->json([
+            'status'=>true,
+            'schedule' =>$schedule,
+        ]);
+    }else{
+        $schedule= Schedule::with('user', 'district', 'upazila')->get();
+
+        return response()->json([
+            'status'=>true,
+            'schedule' =>$schedule,
+        ]);
+    }
+ }
 
     public function scheduleCreate()
     {

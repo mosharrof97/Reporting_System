@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\SubmitReport;
+use App\Models\SubmitDetails;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,6 +29,7 @@ class AdminController extends Controller
             'totalVisit' => SubmitReport::get()->count(),
             'totalpositive' => SubmitReport::where('visit_status', 'positive')->get()->count(),
             'totalSold' => SubmitReport::where('visit_status', 'Confirmed ')->get()->count(), 
+            
          ];
 
            return view('adminDashboard.page.dashboard', $data);

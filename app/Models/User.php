@@ -72,18 +72,22 @@ class User extends Authenticatable
 
     public function getTodayData(){
 
-        return SubmitReport::whereDate('created_at', today())->count();
+        return SubmitDetails::where('id',$this->user_id)->whereDate('created_at', today())->count();
     }
 
     public function runningMonthlyData(){
 
         $startOfMonth = Carbon::now()->startOfMonth();
-        return SubmitReport::where('created_at', '>=', $startOfMonth)->count();
+        return SubmitDetails::where('created_at', '>=', $startOfMonth)->count();
     }
 
     public function runningYearlyData(){
 
         $startOfYear = Carbon::now()->startOfYear();
-        return SubmitReport::where('created_at', '>=', $startOfYear)->count();
+        return SubmitDetails::where('id',$this->id)->where('created_at', '>=', $startOfYear)->count();
+    }
+
+    public function appointment_count(){
+        return Schedule::where('id',$this->id)->count();
     }
 }

@@ -22,7 +22,7 @@
     <link href="{{ asset('vendor/datatables/css/jquery.dataTables.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 
-    <title>Focus - Bootstrap Admin Dashboard </title>
+    <title>DMO Reporting System</title>
 </head>
 
 <body>

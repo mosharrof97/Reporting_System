@@ -40,6 +40,9 @@ Route::prefix('admin')->middleware(['auth', 'checkRole: 1'])->group(function () 
     //  Api
 
     Route::get('schedule_list', [SubmitController::class,'scheduleList'])->name('schedule_list');
+    Route::get('schedule_list_api', [SubmitController::class,'scheduleList_api'])->name('schedule_list_api');
+
+    
 
     Route::get('/create_district', [AddressController::class, 'districtCreate'])->name('createDistrict');
     Route::post('/store_district', [AddressController::class, 'districtStore'])->name('storeDistrict');

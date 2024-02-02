@@ -110,6 +110,7 @@
                                 <p class="text-dark m-0">Today Visit- {{ $data->getTodayData() }} </p>
                                 <p class="text-dark m-0">Current Month - {{ $data->runningMonthlyData() }}</p>
                                 <p class="text-dark m-0">Current Year- {{ $data->runningYearlyData() }}</p>
+                                <p class="text-dark m-0">Appointment - {{ $data->runningYearlyData() }}</p>
                             </div>
                         </div>
                     </div>
