@@ -100,17 +100,43 @@
             <div class="col-lg-3 col-sm-6">
                 <div class="card shadow  rounded ">
                     <div class="stat-widget-one card-body p-3">
+
                         <div class="row">
-                            <div class="col-3">
-                                <img src="{{ asset('upload/UserImage/' . $data->image) }}" alt="" width="55"
-                                    height="50" class="pe-2">
+                            <div class="col-12 ">
+                                <div class="row align-items-center">
+                                    <div class="col-4">
+                                        <img src="{{ asset('upload/UserImage/' . $data->image) }}" alt=""
+                                            width="55" height="50" class="pe-2">
+                                    </div>
+                                    <div class="col-8">
+                                        <h5>{{ $data->name }} ({{ $data->district->name }})</h5>
+                                    </div>
+                                </div>
                             </div>
-                            <div class=" col-9 text-start">
-                                <h5>{{ $data->name }} ({{ $data->district->name }})</h5>
-                                <p class="text-dark m-0">Today Visit- {{ $data->getTodayData() }} </p>
+                            <div class=" col-12 text-start ">
+                                <table class="table">
+                                    <tr>
+                                        <th class="text-dark m-0 p-1">Today Visit- </th>
+                                        <td class="p-1">{{ $data->getTodayData() }} </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-dark m-0 p-1">Current Month - </th>
+                                        <td class="p-1">{{ $data->runningMonthlyData() }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-dark m-0 p-1">Current Year- </th>
+                                        <td class="p-1">{{ $data->runningYearlyData() }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-dark m-0 p-1">Appointment - </th>
+                                        <td class="p-1">{{ $data->runningYearlyData() }}</td>
+                                    </tr>
+                                </table>
+
+                                {{-- <p class="text-dark m-0">Today Visit- {{ $data->getTodayData() }} </p>
                                 <p class="text-dark m-0">Current Month - {{ $data->runningMonthlyData() }}</p>
                                 <p class="text-dark m-0">Current Year- {{ $data->runningYearlyData() }}</p>
-                                <p class="text-dark m-0">Appointment - {{ $data->runningYearlyData() }}</p>
+                                <p class="text-dark m-0">Appointment - {{ $data->runningYearlyData() }}</p> --}}
                             </div>
                         </div>
                     </div>

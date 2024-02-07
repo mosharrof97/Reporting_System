@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Builder;
 use App\Models\SubmitReport;
 use App\Models\District;
 use App\Models\Upazila;
@@ -93,7 +94,10 @@ class SubmitController extends Controller
                 if($s_eiin_number){
                     try {
                         DB::beginTransaction();
-                        $s_eiin_number->update(['visit_count' => $s_eiin_number->visit_count + 1]);
+                        $s_eiin_number->update([
+                            'visit_count' => $s_eiin_number->visit_count + 1,
+                            't_a_bill' => $s_eiin_number->t_a_bill + $request->t_a_bill,
+                        ]);
                         SubmitDetails::create([
                             'report_id'=>$s_eiin_number->id,
                             'comment' => $request->school_comment,
@@ -143,7 +147,10 @@ class SubmitController extends Controller
                     try {
                         DB::beginTransaction();
 
-                        $sub_eiin_number->update(['visit_count' => $sub_eiin_number->visit_count + 1]);
+                        $sub_eiin_number->update([
+                            'visit_count' => $sub_eiin_number->visit_count + 1,
+                            't_a_bill' => $s_eiin_number->t_a_bill + $request->t_a_bill,
+                        ]);
                         SubmitDetails::create([
                             'report_id'=>$sub_eiin_number->id,
                             'comment' => $request->school_comment,
@@ -202,26 +209,45 @@ class SubmitController extends Controller
     }
 
 
-// Schedule
+//================ Schedule===================//
  public function scheduleList(Request $request)
  {
-    if ($request->input('query')) {
-        
-        $query = $request->input('query');
-        // $results = User::where('name', 'like', '%' . $query . '%')->pluck('name');
-        $results = User::where('name', 'like', '%' . $query . '%')->pluck('name');
-        return response()->json($results);
-    }elseif($request->input('dmo')){
-        $user_id = User::where('name','like', $request->dmo.'%'  )->pluck('id');
+     if($request->ajax()){
+        $user_id=User::where('name', $request->name)->pluck('id'); 
+        if($request->name){
+            $dmoDatas = Schedule::where('user_id', $user_id)->with('user', 'district',
+            'upazila')->orderBy('id','desc')->get();
+            
+            return response()->json([
+                'status' => true,
+                'dmoDatas' => $dmoDatas,
+            ]);
+        } elseif($request->start_date && $request->end_date){
+            $date_Datas = Schedule::with('user', 'district',
+            'upazila')
+            ->orderBy('id','desc')
+            ->when(
+                $request->start_date && $request->end_date,
+                function (Builder $builder) use ($request) {
+                    $builder->whereBetween(
+                        DB::raw('DATE(updated_at)'),
+                        [
+                            $request->start_date,
+                            $request->end_date,
+                        ]
+                    );
+                }
+            )
+            ->get();
 
-        $schedule= Schedule::where('user_id', $user_id )->with('user', 'district', 'upazila')->get();
-
-        return response()->json([
-            'status'=>true,
-            'schedule' =>$schedule,
-        ]);
-    }else{
+            return response()->json([
+                'status' => true,
+                'date_Datas' => $date_Datas,
+            ]);
+        }
+     }else{
         $data=[
+            'user' => User::where('role',2)->get(),
             'schedule' => Schedule::get(),
         ];
         return view('adminDashboard.page.schedule_list',

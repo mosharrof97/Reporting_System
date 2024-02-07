@@ -20,34 +20,21 @@
                     <div class="d-flex justify-content-end">
 
                         <div class="mr-1 ">
-                            <input class="form-control bg-light" list="datalistOptions" id="exampleDataList"
+                            <input type="date" class="form-control bg-light" id="start_date"
                                 placeholder="Select Date From">
-                            <datalist id="datalistOptions">
-                                <option value="Jan">
-                                <option value="Feb">
-                                <option value="March">
-                                <option value="April">
-                                <option value="May">
-                            </datalist>
                         </div>
 
                         <div class="mr-1 ">
-                            <input class="form-control bg-light" list="datalistOptions" id="exampleDataList"
-                                placeholder="Select Date To">
-                            <datalist id="datalistOptions">
-                                <option value="Jan">
-                                <option value="Feb">
-                                <option value="March">
-                                <option value="April">
-                                <option value="May">
-                            </datalist>
+                            <input type="date" class="form-control bg-light" id="end_date" placeholder="Select Date To">
                         </div>
 
                         <div class="mr-1 ">
-                            <input class="form-control " style="background-color: rgb(156, 77, 48)" list="dmoList"
-                                id="dmo" placeholder="Select DMO">
-                            <datalist id="dmoList">
-
+                            <input class="form-control bg-light" list="dmoOptions" id="dmoDataList"
+                                placeholder="Select DMO">
+                            <datalist id="dmoOptions">
+                                @foreach ($user as $data)
+                                    <option value="{{ $data->name }}">
+                                @endforeach
                             </datalist>
                         </div>
 
@@ -55,12 +42,14 @@
                 </div>
 
                 <div class="card-body">
+                    <div id="filter_name"></div>
                     <div class="table-responsive">
                         <table class="table primary-table  table-bordered table-responsive-sm">
                             <thead class="thead-primary">
                                 <tr>
                                     <th class="text-nowrap"> SL </th>
                                     <th class="text-nowrap"> Create date </th>
+                                    <th class="text-nowrap">DMO Name</th>
                                     <th class="text-nowrap">School Name</th>
                                     <th class="text-nowrap"> EIIN </th>
                                     <th class="text-nowrap">Head Teacher</th>
@@ -69,15 +58,15 @@
                                     <th class="text-nowrap"> Upazila</th>
                                     <th class="text-nowrap">Appointment Date</th>
                                     <th class="text-nowrap">Comment</th>
-                                    <th class="text-nowrap">DMO Name</th>
                                     <th class="text-nowrap">View</th>
                                 </tr>
                             </thead>
-                            <tbody id="schedule">
+                            <tbody id="appointmen_list">
                                 @foreach ($schedule as $datas)
                                     <tr>
                                         <td class="text-nowrap">{{ $datas->id }}</td>
                                         <td class="text-nowrap">{{ $datas->created_at->format('d-M-Y') }}</td>
+                                        <td class="text-nowrap">{{ $datas->user->name }}</td>
                                         <td class="text-nowrap">{{ $datas->school_name }}</td>
                                         <td class="text-nowrap">{{ $datas->eiin_number }}</td>
                                         <td class="text-nowrap">{{ $datas->h_teacher_name }}</td>
@@ -86,7 +75,6 @@
                                         <td class="text-nowrap">{{ $datas->upazila->name }}</td>
                                         <td class="text-nowrap">{{ $datas->date }}</td>
                                         <td class="text-nowrap">{{ $datas->schedule_comment }}</td>
-                                        <td class="text-nowrap">{{ $datas->user->name }}</td>
                                         <td class="text-nowrap">
                                             {{-- <a href="{{ route('view_Report') . $datas->id }}"
                                                 class="btn btn-light">View</a> --}}
@@ -104,126 +92,187 @@
     </div>
 
     <script>
-        $('document').ready(function() {
+        //========== DMO Search ===========//
+        $(document).on('change', '#dmoDataList', function() {
+            var dmo_name = $(this).val();
             $.ajax({
-                url: "{{ route('schedule_list_api') }}",
+                url: "{{ route('schedule_list') }}",
                 type: "GET",
+                data: {
+                    'name': dmo_name
+                },
                 dataType: "json",
-                success: function(res) {
-                    if (res.schedule.length > 0) {
-                        let datas = res['schedule'];
-                        // console.log(datas);
-                        $.each(datas, function(index, data) {
-                            $("#schedule").append(`
-                                <tr>
-                                    <td class="text-nowrap"> ${index + 1}</td>
-                                    <td class="text-nowrap"> ${new Date(data.created_at).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</td>
-                                    <td class="text-nowrap"> ${data.school_name}</td>
-                                    <td class="text-nowrap"> ${data.eiin_number}</td>
-                                    <td class="text-nowrap"> ${data.h_teacher_name}</td>
-                                    <td class="text-nowrap"> ${data.number}</td>
-                                    <td class="text-nowrap"> ${data.district.name}</td>
-                                    <td class="text-nowrap"> ${data.upazila.name}</td>
-                                    <td class="text-nowrap"> ${new Date(data.date).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</td>
-                                    <td class="text-nowrap"> ${data.schedule_comment}</td>
-                                    <td class="text-nowrap"> ${data.user.name}</td>
-                                    <td class="text-nowrap"> <a href="" class="btn btn-light">View</a></td>
-                                </tr>
-                            `);
+                success: function(data) {
+                    if (data.dmoDatas.length > 0) {
+                        let report = data['dmoDatas'];
+
+                        $('#appointmen_list').find("tr").remove();
+                        $.each(report, function(index, element) {
+                            $('#appointmen_list').append(
+                                `<tr>
+                                <td class="text-nowrap">${ index+1 }</td>
+                                <td class="text-nowrap">${new Date(element.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</td>
+                                <td class="text-nowrap">${ element.user.name }</td>
+                                <td class="text-nowrap">${ element.school_name }</td>
+                                <td class="text-nowrap">${ element.eiin_number }</td>
+                                <td class="text-nowrap">${ element.h_teacher_name }</td>
+                                <td class="text-nowrap">${ element.number }</td>
+                                <td class="text-nowrap">${ element.district.name }</td>
+                                <td class="text-nowrap">${ element.upazila.name }</td>
+                                <td class="text-nowrap">${ element.date }</td>
+                                <td class="text-nowrap">${ element.schedule_comment }</td>
+                                <td class="text-nowrap"><a href="#" class="btn btn-light">View</a></td>
+
+                            </tr>`
+                            );
                         });
                     } else {
-                        $("#schedule").append("<tr><td colspan='2'> Data Not Found</td></tr>");
+                        $('#appointmen_list').find("tr").remove();
+                        $('#appointmen_list').append(
+                            `<tr>
+                            <td class="text-nowrap" colspan="13">
+                                <h2>${"No data Found"}</h2>
+                            </td>
+                        </tr>`
+                        );
                     }
                 },
                 error: function(xhr, status, error) {
                     console.log('AJAX request failed:', error);
                 }
             });
+            $('#filter_name').html(`<h4>Filter: ${dmo_name}</h4>`);
+            $('#dmoDataList').val('');
+            $('#pagination').html('')
         });
+        //========== DMO Search ===========//
 
-        // Autocomplete Search From
-        $(document).ready(function() {
-            $("#dmo").on('keyup', function() {
-                var value = $(this).val();
+        //========== Date Search ===========//
 
-                // Send an AJAX request to the server
-                $.ajax({
-                    url: "{{ route('schedule_list') }}", // Replace with your server endpoint
-                    type: "GET",
-                    data: {
-                        'query': value
-                    },
-                    dataType: "json",
-                    success: function(data) {
-                        console.log(data);
-                        // Update the autocomplete list with the received data
-                        updateAutocompleteList(data);
+        $(document).on('change', '#start_date', '#end_date', function() {
+            var start_date = $('#start_date').val();
+            var end_date = $('#end_date').val();
+
+            $.ajax({
+                url: "{{ route('schedule_list') }}",
+                type: "GET",
+                data: {
+                    'start_date': start_date,
+                    'end_date': end_date,
+                },
+                dataType: "json",
+                success: function(data) {
+                    if (data.date_Datas.length > 0) {
+                        let report = data['date_Datas'];
+                        $('#appointmen_list').find("tr").remove();
+                        $.each(report, function(index, element) {
+                            $('#appointmen_list').append(
+                                `<tr>
+                                    <td class="text-nowrap">${ index+1 }</td>
+                                    <td class="text-nowrap">${new Date(element.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</td>
+                                    <td class="text-nowrap">${ element.user.name }</td>
+                                    <td class="text-nowrap">${ element.school_name }</td>
+                                    <td class="text-nowrap">${ element.eiin_number }</td>
+                                    <td class="text-nowrap">${ element.h_teacher_name }</td>
+                                    <td class="text-nowrap">${ element.number }</td>
+                                    <td class="text-nowrap">${ element.district.name }</td>
+                                    <td class="text-nowrap">${ element.upazila.name }</td>
+                                    <td class="text-nowrap">${ element.date }</td>
+                                    <td class="text-nowrap">${ element.schedule_comment }</td>
+                                    <td class="text-nowrap"><a href="#" class="btn btn-light">View</a></td>
+                            </tr>`
+                            );
+                        });
+                    } else {
+                        $('#appointmen_list').find("tr").remove();
+                        $('#appointmen_list').append(
+                            `<tr>
+                                        <td class="text-nowrap" colspan="13">
+                                            <h2>${"No data Found"}</h2>
+                                        </td>
+                                    </tr>`
+                        );
                     }
-                });
+                },
+                error: function(xhr, status, error) {
+                    console.log('AJAX request failed:', error);
+                }
             });
-
-            // Handle clicks on the autocomplete list items
-            $(document).on('click', 'option', function() {
-                var value = $(this).text();
-                $('#dmo').val(value);
-                $('#dmoList').html('');
-            });
-
-            // Function to update the autocomplete list
-            function updateAutocompleteList(data) {
-                var list = $('#dmoList');
-                list.empty();
-
-
-                // Append each result as a list item
-                $.each(data, function(index, item) {
-                    // list.append('<li>' + item + '</li>');
-                    list.append((`<option value="${item}">`));
-                });
-            }
+            // $('#filter_name').html(`<h4>Filter: ${dmo_name}</h4>`);
+            $('#pagination').html('')
         });
+        //========== Date Search ===========//
+
+
+        //========== Date & DMO Search ===========//
+        // $(document).ready(function() {
+        //     // Search by DMO Data List
+        //     $(document).on('change', '#dmoDataList', function() {
+        //         var dmo_name = $(this).val();
+        //         fetchData({
+        //             'name': dmo_name
+        //         });
+        //     });
+
+        //     // Search by Date Range
+        //     $(document).on('change', '#start_date, #end_date', function() {
+        //         var start_date = $('#start_date').val();
+        //         var end_date = $('#end_date').val();
+        //         fetchData({
+        //             'start_date': start_date,
+        //             'end_date': end_date
+        //         });
+        //     });
+
+        //     // Function to fetch data via AJAX
+        //     function fetchData(params) {
+        //         $.ajax({
+        //             url: "{{ route('schedule_list') }}",
+        //             type: "GET",
+        //             data: params,
+        //             dataType: "json",
+        //             success: function(data) {
+        //                 if (data.length > 0) {
+        //                     let report = data;
+        //                     $('#appointmen_list').find("tr").remove();
+        //                     $.each(report, function(index, element) {
+        //                         $('#appointmen_list').append(
+        //                             `<tr>
+    //                         <td class="text-nowrap">${ index+1 }</td>
+    //                         <td class="text-nowrap">${new Date(element.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</td>
+    //                         <td class="text-nowrap">${ element.user.name }</td>
+    //                         <td class="text-nowrap">${ element.school_name }</td>
+    //                         <td class="text-nowrap">${ element.eiin_number }</td>
+    //                         <td class="text-nowrap">${ element.h_teacher_name }</td>
+    //                         <td class="text-nowrap">${ element.number }</td>
+    //                         <td class="text-nowrap">${ element.district.name }</td>
+    //                         <td class="text-nowrap">${ element.upazila.name }</td>
+    //                         <td class="text-nowrap">${ element.date }</td>
+    //                         <td class="text-nowrap">${ element.schedule_comment }</td>
+    //                         <td class="text-nowrap"><a href="#" class="btn btn-light">View</a></td>
+    //                     </tr>`
+        //                         );
+        //                     });
+        //                 } else {
+        //                     $('#appointmen_list').find("tr").remove();
+        //                     $('#appointmen_list').append(
+        //                         `<tr>
+    //                     <td class="text-nowrap" colspan="13">
+    //                         <h2>No data Found</h2>
+    //                     </td>
+    //                 </tr>`
+        //                     );
+        //                 }
+        //             },
+        //             error: function(xhr, status, error) {
+        //                 console.log('AJAX request failed:', error);
+        //             }
+        //         });
+        //         $('#pagination').html('');
+        //     }
+        // });
+
+
+        //========== Date & DMO  Search ===========//
     </script>
 @endsection
-
-
-{{-- 
-                        // for (let i = 0; i < res.schedule.length; i++) {
-                        //     $("#schedule").append(`
-                    //     <tr>
-                    //         <td class="text-nowrap">` + (i + 1) + `</td>
-                    //         <td class="text-nowrap">` + (res.schedule[i]['created_at']) + `</td>
-                    //         <td class="text-nowrap">` + (res.schedule[i]['school_name']) + `</td>
-                    //         <td class="text-nowrap">` + (res.schedule[i]['eiin_number']) + `</td>
-                    //         <td class="text-nowrap">` + (res.schedule[i]['h_teacher_name']) + `</td>
-                    //         <td class="text-nowrap">` + (res.schedule[i]['number']) + `</td>
-                    //         <td class="text-nowrap">` + (res.schedule[i]['district.name']) + `</td>
-                    //         <td class="text-nowrap">` + (res.schedule[i][{
-                        //         'upazila.name'
-                        //     }]) + `</td>
-                    //         <td class="text-nowrap">` + (res.schedule[i]['date']) + `</td>
-
-                    //     </tr>
-                    //     `)
-                        // } --}}
-
-
-{{-- @foreach ($schedule as $datas)
-                                    <tr>
-                                        <td class="text-nowrap">{{ $datas->id }}</td>
-                                        <td class="text-nowrap">{{ $datas->created_at->format('d-M-Y') }}</td>
-                                        <td class="text-nowrap">{{ $datas->school_name }}</td>
-                                        <td class="text-nowrap">{{ $datas->eiin_number }}</td>
-                                        <td class="text-nowrap">{{ $datas->h_teacher_name }}</td>
-                                        <td class="text-nowrap">{{ $datas->number }}</td>
-                                        <td class="text-nowrap">{{ $datas->district->name }}</td>
-                                        <td class="text-nowrap">{{ $datas->upazila->name }}</td>
-                                        <td class="text-nowrap">{{ $datas->date }}</td>
-                                        <td class="text-nowrap">{{ $datas->schedule_comment }}</td>
-                                        <td class="text-nowrap">{{ $datas->user->name }}</td>
-                                        <td class="text-nowrap">
-                                            {{-- <a href="{{ route('view_Report') . $datas->id }}"
-                                                class="btn btn-light">View</a> --}}
-{{-- <a href="#" class="btn btn-light">View</a>
-                                        </td>
-                                    </tr>
-                                @endforeach --}}

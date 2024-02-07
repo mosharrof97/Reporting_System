@@ -78,7 +78,7 @@ class User extends Authenticatable
     public function runningMonthlyData(){
 
         $startOfMonth = Carbon::now()->startOfMonth();
-        return SubmitDetails::where('created_at', '>=', $startOfMonth)->count();
+        return SubmitDetails::where('id',$this->id)->where('created_at', '>=', $startOfMonth)->count();
     }
 
     public function runningYearlyData(){

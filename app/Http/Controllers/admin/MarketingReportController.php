@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
 use App\Models\SubmitReport;
 use App\Models\SubmitDetails;
 use App\Models\Schedule;
@@ -33,13 +34,33 @@ class MarketingReportController extends Controller
                 'status' => true,
                 'visit_status' => $visit_status,
                 ]);
+            }elseif($request->start_date && $request->end_date){
+                    $date_Datas = SubmitReport::with('user', 'district','upazila')->orderBy('id','desc')
+                    ->when($request->start_date && $request->end_date,
+                        function (Builder $builder) use ($request) {
+                            $builder->whereBetween(
+                                DB::raw('DATE(updated_at)'),
+                                [
+                                    $request->end_date,
+                                    $request->start_date,
+                                ]
+                            );
+                        }
+                    )->get();
+
+                return response()->json([
+                'status' => true,
+                'date_Datas' => $date_Datas,
+                ]);
             }
         }else{
             $user = User::where('role',2)->orderBy('id', 'desc')->get();
             $marketingReport = SubmitReport::orderBy('id', 'desc')
             ->paginate(15);
+            $totalReport = SubmitReport::orderBy('id', 'desc')
+            ->get();
 
-            return view('adminDashboard.page.marketingReport', compact('user','marketingReport'));
+            return view('adminDashboard.page.marketingReport', compact('user','marketingReport','totalReport'));
         }
         
     }

@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\admin\MarketingReportController;
 use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\admin\AddressController;
+use App\Http\Controllers\admin\appointmenController;
 
 use App\Http\Controllers\EmployeeController;
 
